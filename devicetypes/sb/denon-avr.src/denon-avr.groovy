@@ -41,7 +41,9 @@ metadata {
 		attribute "game", "string"
 		attribute "sMovie", "string"        
 		attribute "sMusic", "string"          
+		attribute "sGame", "string"
 		attribute "sPure", "string"        
+		attribute "sAuto", "string"
 		attribute "q1", "string"
 		attribute "q2", "string"
 		attribute "q3", "string"        
@@ -63,13 +65,14 @@ metadata {
 		command "bt"
 		command "game"
 		command "sMovie"
+		command "sGame"
 		command "sMusic"
 		command "sPure"
+		command "sAuto"
 		command "q1"
 		command "q2"
 		command "q3"
 		command "q4"
-		command "sPure" 
 		command "z2on"        
 		command "z2off"        
 
@@ -138,7 +141,8 @@ preferences {
         	state "sMusic", label: 'Sound Mode: ${currentValue}', action:"sMusic", icon:"st.Entertainment.entertainment3", backgroundColor: "#FFFFFF", nextState:"sMovie"
 			state "sMovie", label: 'Sound Mode: ${currentValue}', action:"sMovie", icon:"st.Entertainment.entertainment9", backgroundColor: "#FFFFFF", nextState:"sGame"
 			state "sGame", label: 'Sound Mode: ${currentValue}', action:"sGame", icon:"st.Electronics.electronics6", backgroundColor: "#FFFFFF", nextState:"sPure"
-			state "sPure", label: 'Sound Mode: ${currentValue}', action:"sPure", icon:"st.Entertainment.entertainment15", backgroundColor: "#FFFFFF", nextState:"sMusic"
+			state "sPure", label: 'Sound Mode: ${currentValue}', action:"sPure", icon:"st.Entertainment.entertainment15", backgroundColor: "#FFFFFF", nextState:"sPure Direct"
+			state "sAuto", label: 'Sound Mode: ${currentValue}', action:"sAuto", icon:"st.Entertainment.entertainment15", backgroundColor: "#FFFFFF", nextState:"sMusic"
             }
         standardTile("input11", "device.q1", width: 1, height: 1, decoration: "flat"){
         	state "OFF", label: 'Quick 1', action: "q1",  backgroundColor: "#53a7c0",nextState:"ON"   // icon:"st.Electronics.electronics5",
@@ -312,9 +316,14 @@ def parse(String description) {
         request("cmd0=PutSurroundMode%2F"+cmd)
     }
     def sPure() {
-        def cmd = "PURE DIRECT"
+        def cmd = "PURE+DIRECT"
         log.debug "Setting input to '${cmd}'"
-        request("cmd0=PutZone_InputFunction%2F"+cmd)
+        request("cmd0=PutSurroundMode%2F"+cmd)
+    }
+    def sAuto() {
+        def cmd = "AUTO"
+        log.debug "Setting input to '${cmd}'"
+        request("cmd0=PutSurroundMode%2F"+cmd)
     }
     //QUICK MODES
     def q1() {
